@@ -1,0 +1,30 @@
+EXTRA_POST_BUILD_TARGETS += gen_standard_images
+
+#bootloader
+BOOT_BIN_FILE    := $(BOOTLOADER_OUTFILE_BIN)
+BOOT_OFFSET      := 0x0
+
+#application 
+APP_BIN_FILE :=$(BIN_OUTPUT_FILE)
+APP_OFFSET:= 0x10000
+
+#ate firmware
+ATE_BIN_FILE := $(MICO_OS_PATH)/resources/ate_firmware/3162/ate.bin
+ATE_OFFSET:= 0x60000
+
+#wifi firmware
+RF_BIN_FILE := $(MICO_OS_PATH)/resources/wifi_firmware/43362/43362A2-5.90.230.22.bin
+RF_OFFSET:= 0xC0000
+
+# Required to build Full binary file
+GEN_COMMON_BIN_OUTPUT_FILE_SCRIPT:= $(SCRIPTS_PATH)/gen_common_bin_output_file.py
+
+MOC_ALL_BIN_OUTPUT_FILE :=$(LINK_OUTPUT_FILE:$(LINK_OUTPUT_SUFFIX)=.all$(BIN_OUTPUT_SUFFIX))
+
+gen_standard_images: build_done
+	$(QUIET)$(ECHO) Generate Standard Flash Images: $(MOC_ALL_BIN_OUTPUT_FILE)
+	$(QUIET)$(RM) $(MOC_ALL_BIN_OUTPUT_FILE)
+	$(PYTHON) $(GEN_COMMON_BIN_OUTPUT_FILE_SCRIPT) -o $(MOC_ALL_BIN_OUTPUT_FILE) -f $(BOOT_OFFSET) $(BOOT_BIN_FILE)              
+	$(PYTHON) $(GEN_COMMON_BIN_OUTPUT_FILE_SCRIPT) -o $(MOC_ALL_BIN_OUTPUT_FILE) -f $(APP_OFFSET)  $(APP_BIN_FILE)
+	$(PYTHON) $(GEN_COMMON_BIN_OUTPUT_FILE_SCRIPT) -o $(MOC_ALL_BIN_OUTPUT_FILE) -f $(ATE_OFFSET)  $(ATE_BIN_FILE)
+	$(PYTHON) $(GEN_COMMON_BIN_OUTPUT_FILE_SCRIPT) -o $(MOC_ALL_BIN_OUTPUT_FILE) -f $(RF_OFFSET)   $(RF_BIN_FILE)
