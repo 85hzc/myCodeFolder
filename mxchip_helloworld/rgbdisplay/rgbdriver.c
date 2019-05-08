@@ -264,7 +264,7 @@ void send_data_16bit(uint16_t *RR,uint16_t *GG,uint16_t *BB)        //´«ËÍ16Î»»Ò
         for(j=0;j<16;j++)//16 channels
         {
             //WriteData(*(RR+i),16,GPIO_RGB_SDI_R1);//16 bits
-            WriteData((circle%16==j)?RR[1]:0,16,GPIO_RGB_SDI_R1);//16 bits
+            WriteData((circle%16==j)?RR[1]:0x0, 16, GPIO_RGB_SDI_R1);//16 bits
             //WriteData(GG,16);
             //WriteData(BB,16);
         }

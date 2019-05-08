@@ -14,7 +14,7 @@
  */
 
 #include "mico.h"
-#include "rgbdisplay.h"
+#include "cubedisplay.h"
 
 uint8_t circle = 0;
 rgb_display_context_t   *app_context = NULL;
@@ -48,7 +48,7 @@ int application_start( void )
   //mico_wlan_start_monitor();
   //mico_wlan_monitor_set_channel(1);
 
-  GPIO_RGB_init();
+  GPIO_init();
   //mico_nanosecond_init();
   myNsDelay(100);
 
@@ -67,17 +67,24 @@ int application_start( void )
   }
 */
 
-  MBI_init();
   while(1)
   {
       //MicoGpioOutputTrigger( MICO_SYS_LED );
 
       //register_config();
       //mico_thread_msleep(1);
-      RGB_SDI_R_schedule(bits, 32);
-      circle++;
+      //RGB_SDI_Switch();
+
+
+      RGB_SDI_Running(G);
+      RGB_SDI_Running(R);
+      RGB_SDI_Running(B);
+      RGB_SDI_Running(R|B);
+      RGB_SDI_Running(R|G);
+      RGB_SDI_Running(G|B);
+      RGB_SDI_Running(R|B|B);
       //os_rgb_log( "while" );
-      mico_thread_msleep(100);
+      //mico_thread_msleep(100);
   }
 
 exit:
