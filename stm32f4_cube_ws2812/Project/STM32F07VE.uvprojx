@@ -426,14 +426,19 @@
               <FilePath>..\Drive\Source\gpio.c</FilePath>
             </File>
             <File>
-              <FileName>mbi5153.c</FileName>
+              <FileName>cubedriver.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\mbi5153.c</FilePath>
+              <FilePath>..\Drive\Source\cubedriver.c</FilePath>
+            </File>
+            <File>
+              <FileName>ws2812driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drive\Source\ws2812driver.c</FilePath>
             </File>
             <File>
               <FileName>timepwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\timepwm.c</FilePath>
+              <FilePath>..\Drive\Source\timepwm.c</FilePath>
             </File>
           </Files>
         </Group>
