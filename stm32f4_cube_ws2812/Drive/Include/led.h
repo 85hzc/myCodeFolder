@@ -8,8 +8,8 @@
 
 #define LED1_PIN             GPIO_Pin_9       		 // LED1 引脚
 #define LED2_PIN             GPIO_Pin_10       		 // LED1 引脚     
-#define LED_PORT            GPIOF                  // LED1 GPIO端口     
-#define LED_CLK             RCC_AHB1Periph_GPIOF	 // LED1 GPIO端口时钟
+#define LED_PORT            GPIOE                  // LED1 GPIO端口     
+#define LED_CLK             RCC_AHB1Periph_GPIOE	 // LED1 GPIO端口时钟
 
 /*---------------------- LED控制宏 ------------------------*/
 					

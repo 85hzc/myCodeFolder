@@ -5,27 +5,28 @@
 #include "stm32f4xx_gpio.h"
 
 /*---------------------- GPIO配置宏 ------------------------*/
-
-//#define DCLK_PIN          GPIO_Pin_5              // LED1 引脚
-//#define GCLK_PIN          GPIO_Pin_9              // LED1 引脚
-//#define LE_PIN            GPIO_Pin_7              // LED1 引脚
-#define SDI_PIN           GPIO_Pin_10               // LED1 引脚
-#define MBI_PORT          GPIOE                     // MBI驱动 GPIO端口
-#define MBI_CLK           RCC_AHB1Periph_GPIOE      // LED1 GPIO端口时钟
+#define CUBE_X0_Y0_PIN  	GPIO_Pin_0                // Din0 引脚
+#define CUBE_X0_Y1_PIN  	GPIO_Pin_1                // Din0 引脚
+#define CUBE_X0_Y2_PIN  	GPIO_Pin_2                // Din0 引脚
+#define CUBE_X0_Y3_PIN  	GPIO_Pin_3                // Din0 引脚
+#define CUBE_X1_Y0_PIN  	GPIO_Pin_4                // Din0 引脚
+#define CUBE_X1_Y1_PIN  	GPIO_Pin_5                // Din0 引脚
+#define CUBE_X1_Y2_PIN  	GPIO_Pin_6                // Din0 引脚
+#define CUBE_X1_Y3_PIN  	GPIO_Pin_7                // Din0 引脚
+#define CUBE_X2_Y0_PIN  	GPIO_Pin_8                // Din0 引脚
+#define CUBE_X2_Y1_PIN  	GPIO_Pin_9                // Din0 引脚
+#define CUBE_X2_Y2_PIN  	GPIO_Pin_10               // Din0 引脚
+#define CUBE_X2_Y3_PIN  	GPIO_Pin_11               // Din0 引脚
+#define CUBE_X3_Y0_PIN  	GPIO_Pin_12               // Din0 引脚
+#define CUBE_X3_Y1_PIN  	GPIO_Pin_13               // Din0 引脚
+#define CUBE_X3_Y2_PIN  	GPIO_Pin_14               // Din0 引脚
+#define CUBE_X3_Y3_PIN  	GPIO_Pin_15               // Din0 引脚
+#define CUBE_PORT         GPIOF                     // MBI驱动 GPIO端口
+#define CUBE_CLK          RCC_AHB1Periph_GPIOF      // LED1 GPIO端口时钟
 
 /*---------------------- GPIO控制宏 ------------------------*/
-/*
-#define DCLK_PIN_H        MBI_PORT->BSRRL = DCLK_PIN;       // 输出高电平
-#define DCLK_PIN_L        MBI_PORT->BSRRH = DCLK_PIN;       // 输出低电平
-#define LE_PIN_H          MBI_PORT->BSRRL = LE_PIN;         // 输出高电平
-#define LE_PIN_L          MBI_PORT->BSRRH = LE_PIN;         // 输出低电平
-#define GCLK_PIN_H        MBI_PORT->BSRRL = GCLK_PIN;       // 输出高电平
-#define GCLK_PIN_L        MBI_PORT->BSRRH = GCLK_PIN;       // 输出低电平
-*/
-#define SDI_PIN_H         MBI_PORT->BSRRL = SDI_PIN;        // 输出高电平
-#define SDI_PIN_L         MBI_PORT->BSRRH = SDI_PIN;        // 输出低电平
-
-
+#define SDI_PIN_H(pin)         CUBE_PORT->BSRRL = pin;        // 输出高电平
+#define SDI_PIN_L(pin)         CUBE_PORT->BSRRH = pin;        // 输出低电平
 
 
 /*---------------------- 函数声明 ----------------------------*/

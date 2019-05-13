@@ -17,7 +17,7 @@
 void WS2812_GPIO_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure; //定义结构体
-	RCC_AHB1PeriphClockCmd (MBI_CLK, ENABLE); 	//初始化GPIOG时钟
+	RCC_AHB1PeriphClockCmd (CUBE_CLK, ENABLE); 	//初始化GPIOG时钟
 
 	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;   	//输出模式
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;  	//推挽输出
@@ -26,9 +26,15 @@ void WS2812_GPIO_Init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 	//速度选择
 	
 	//初始化引脚
-	GPIO_InitStructure.GPIO_Pin = SDI_PIN;
-	GPIO_Init(MBI_PORT, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = CUBE_X0_Y0_PIN|CUBE_X0_Y1_PIN|CUBE_X0_Y2_PIN|CUBE_X0_Y3_PIN|
+																CUBE_X1_Y0_PIN|CUBE_X1_Y1_PIN|CUBE_X1_Y2_PIN|CUBE_X1_Y3_PIN|
+																CUBE_X2_Y0_PIN|CUBE_X2_Y1_PIN|CUBE_X2_Y2_PIN|CUBE_X2_Y3_PIN|
+																CUBE_X3_Y0_PIN|CUBE_X3_Y1_PIN|CUBE_X3_Y2_PIN|CUBE_X3_Y3_PIN;
+	GPIO_Init(CUBE_PORT, &GPIO_InitStructure);
 	
-	GPIO_ResetBits(MBI_PORT,SDI_PIN);  //输出低电平
+	GPIO_ResetBits(CUBE_PORT,CUBE_X0_Y0_PIN|CUBE_X0_Y1_PIN|CUBE_X0_Y2_PIN|CUBE_X0_Y3_PIN|
+														CUBE_X1_Y0_PIN|CUBE_X1_Y1_PIN|CUBE_X1_Y2_PIN|CUBE_X1_Y3_PIN|
+														CUBE_X2_Y0_PIN|CUBE_X2_Y1_PIN|CUBE_X2_Y2_PIN|CUBE_X2_Y3_PIN|
+														CUBE_X3_Y0_PIN|CUBE_X3_Y1_PIN|CUBE_X3_Y2_PIN|CUBE_X3_Y3_PIN);  //输出低电平
 }
 

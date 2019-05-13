@@ -18,9 +18,10 @@
 #include "gpio.h"
 #include "mbi5153.h"
 
-extern uint8_t circuit;
+//extern uint8_t circuit;
+extern volatile uint16_t SDI_PIN;
 
-extern uint8_t GData[CUBE_SIZE], RData[CUBE_SIZE], BData[CUBE_SIZE];
+extern volatile uint8_t GData[CHIP_SIZE], RData[CHIP_SIZE], BData[CHIP_SIZE];
 extern uint8_t Gmatrix[CUBE_SIZE][CUBE_SIZE][CUBE_SIZE];
 extern uint8_t Rmatrix[CUBE_SIZE][CUBE_SIZE][CUBE_SIZE];
 extern uint8_t Bmatrix[CUBE_SIZE][CUBE_SIZE][CUBE_SIZE];
@@ -49,8 +50,6 @@ void Driver_Val_Init(void)
 
 void Compose_RGB(RGB_Type_E RGB, uint8_t index, uint8_t gray)
 {
-    uint8_t i,j;
-
     memset(GData, 0, sizeof(GData));
     memset(RData, 0, sizeof(RData));
     memset(BData, 0, sizeof(BData));
@@ -63,16 +62,17 @@ void Compose_RGB(RGB_Type_E RGB, uint8_t index, uint8_t gray)
         BData[index] = gray;
 }
 
-void STRIP_Running(RGB_Type_E rgb)
+void STRIP_RunningByPort(RGB_Type_E rgb, uint16_t port)
 {
     uint8_t i,j,color;
 
+    SDI_PIN = port;
     for(i = 0; i < CHIP_SIZE; i++)
     {
 #if 1
-        Compose_RGB(rgb, i, 100);
+        Compose_RGB(rgb, i, GRAY);
         Send_2811_totalBuffer();
-        Delay_ms(1);
+        Delay_ms(2);
 #else
         for(j = 0; j < 25; j++)
         {
@@ -92,9 +92,9 @@ void STRIP_Running(RGB_Type_E rgb)
     for(i = CHIP_SIZE; i > 0; i--)
     {
 #if 1
-        Compose_RGB(rgb, i-1, 100);
+        Compose_RGB(rgb, i-1, GRAY);
         Send_2811_totalBuffer();
-        Delay_ms(1);
+        Delay_ms(2);
 #else
         for(j = 0; j < 25; j++)
         {
@@ -113,8 +113,9 @@ void STRIP_Running(RGB_Type_E rgb)
 }
 
 
-void STRIP_Switch(void)
+void STRIP_SwitchByPort(uint16_t port)
 {
+    SDI_PIN = CUBE_X0_Y0_PIN;
     //rst();
     Send_2811_totalPixels(0xf,0,0);
     Delay_ms(SW_period);
@@ -137,13 +138,10 @@ void STRIP_Switch(void)
 
 void CUBE_Compose_RGB(RGB_Type_E RGB, uint8_t gray)
 {
-    uint8_t i,j;
 
     memset(Gmatrix, 0, sizeof(Gmatrix));
     memset(Rmatrix, 0, sizeof(Rmatrix));
     memset(Bmatrix, 0, sizeof(Bmatrix));
-
-    printf("xxx[%d %d %d]\r\n",Recent_coord_x,Recent_coord_y,Recent_coord_z);
     
     if(RGB&G)
     {
@@ -162,12 +160,10 @@ void CUBE_Compose_RGB(RGB_Type_E RGB, uint8_t gray)
 
 void CUBE_Crawler_RGB(RGB_Type_E RGB, uint8_t gray)
 {
-    uint8_t i,j;
 
     memset(Gmatrix, 0, sizeof(Gmatrix));
     memset(Rmatrix, 0, sizeof(Rmatrix));
     memset(Bmatrix, 0, sizeof(Bmatrix));
-
 
     if(matrix_X==Axis)
     {
@@ -245,7 +241,7 @@ void CUBE_Crawler_RGB(RGB_Type_E RGB, uint8_t gray)
             Recent_coord_z--;
             if(0==Recent_coord_z)
             {
-                Axis = matrix_X;//turn to Z
+                Axis = matrix_X;//turn to X
                 Direct_z = forward;
                 return;
             }
@@ -257,9 +253,17 @@ void CUBE_Crawler_RGB(RGB_Type_E RGB, uint8_t gray)
 void CUBE_crawler(void)
 {
 
-    CUBE_Crawler_RGB(G, 100);
+    CUBE_Crawler_RGB(G, GRAY);
     Send_2811_cubeBuffer();
-
+    Delay_ms(100);
+    CUBE_Crawler_RGB(R, GRAY);
+    Send_2811_cubeBuffer();
+    Delay_ms(100);
+    CUBE_Crawler_RGB(B, GRAY);
+    Send_2811_cubeBuffer();
+    Delay_ms(100);
+    CUBE_Crawler_RGB(RGB, GRAY);
+    Send_2811_cubeBuffer();
 }
 
 

@@ -9,6 +9,8 @@
 #define CHIP_SIZE                                   47
 #define SW_period                                   200
 
+#define GRAY                                        10
+
 #define SCAN_LINE_1									0x0
 #define SCAN_LINE_2									0x1
 #define SCAN_LINE_4									0x3
@@ -21,6 +23,7 @@ typedef enum
     G = 1<<0,
     R = 1<<1,
     B = 1<<2,
+    RGB = G|R|B,
 }RGB_Type_E;
 
 typedef enum

@@ -28,7 +28,7 @@
 #include "gpio.h"
 #include "mbi5153.h"
 
-uint8_t circuit=0;
+//uint8_t circuit=0;
 
 int main(void)
 {
@@ -37,48 +37,45 @@ int main(void)
     SystemInit();
     
     Delay_Init();       //延时函数初始化
-    LED_Init();         //LED初始化
-    //KEY_Init();           //按键IO口初始化
-    Usart_Config(); // USART初始化函数
-    WS2812_GPIO_Init();//初始化MBI驱动pin
+    //LED_Init();         //LED初始化
+    //KEY_Init();       //按键IO口初始化
+    Usart_Config();     //USART初始化函数
+    WS2812_GPIO_Init(); //初始化驱动pin
     //MX_TIM2_Init();
 
     printf("system start.\r\n");
-    
-    SystemCoreClockUpdate();
-    
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//系统中断优先级分组2
 
+    SystemCoreClockUpdate();
+
+    //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//系统中断优先级分组2
     //TIM14_PWM_Init(100-1,21-1);//168M/42=4Mhz的计数频率,重装载值100，所以PWM频率为 4M/100=40Khz.
     //TIM_SetCompare1(TIM14,50);
-
     Driver_Val_Init();
-    
+
     while (1)
     {
         //circuit = (circuit != 0)?0:15;
         //printf("circuit:%d\r\n",circuit)
-#if 0
-        STRIP_Switch();
-        STRIP_Switch();
-        STRIP_Switch();
-        STRIP_Switch();
+#if 1
+        STRIP_SwitchByPort(CUBE_X0_Y0_PIN);
+        STRIP_SwitchByPort(CUBE_X0_Y0_PIN);
+        STRIP_SwitchByPort(CUBE_X0_Y0_PIN);
+        STRIP_SwitchByPort(CUBE_X0_Y0_PIN);
 
-        printf("circuit:%d\r\n",circuit%16);
-        circuit++;
-        STRIP_Running(G);
-        STRIP_Running(R);
-        STRIP_Running(B);
-        STRIP_Running(R|B|B);
-        STRIP_Running(R|B);
-        STRIP_Running(R|G);
-        STRIP_Running(G|B);
+        //printf("circuit:%d\r\n",circuit%16);
+        //circuit++;
+        STRIP_RunningByPort(G, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(R, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(B, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(RGB, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(R|B, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(R|G, CUBE_X0_Y0_PIN);
+        STRIP_RunningByPort(G|B, CUBE_X0_Y0_PIN);
+
 #else
         CUBE_crawler();
-        Delay_ms(500);
-
 #endif
-
+        Delay_ms(200);
 #if 0
         //每次按键按下对标志进行取反
         if( KEY_Scan() == KEY_ON )
